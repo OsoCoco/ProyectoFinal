@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Serealizacion : MonoBehaviour
+public class Serialization : MonoBehaviour
 {
-    Client client;
-
+    
     private void Start()
     {
         
