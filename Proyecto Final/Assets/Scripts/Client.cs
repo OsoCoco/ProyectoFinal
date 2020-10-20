@@ -2,12 +2,14 @@
 using System.Net;
 using System;
 using System.Text;
-
+using System.IO;
 
 public class Client
-{ 
-    private static void ExecuteClient()
+{
+   
+    public static void ExecuteClient()
     {
+        
         try
         {
             // Establish the remote endpoint  
@@ -22,6 +24,13 @@ public class Client
             // Socket Class Costructor 
             Socket sender = new Socket(ipAddr.AddressFamily,
                        SocketType.Stream, ProtocolType.Tcp);
+
+            NetworkStream networkStream = new NetworkStream(sender);
+            BufferedStream stream = new BufferedStream(networkStream);
+
+            BinaryWriter outStream = new BinaryWriter(stream);
+
+            
             try
             {
 
@@ -37,20 +46,20 @@ public class Client
                 // Creation of messagge that 
                 // we will send to Server 
                 byte[] messageSent = Encoding.ASCII.GetBytes("Test Client<EOF>");
-                int byteSent = sender.Send(messageSent);
+                outStream.Write(messageSent);
+                //int byteSent = sender.Send(messageSent);
 
                 // Data buffer 
-                byte[] messageReceived = new byte[1024];
+                //byte[] messageReceived = new byte[1024];
 
                 // We receive the messagge using  
                 // the method Receive(). This  
                 // method returns number of bytes 
                 // received, that we'll use to  
                 // convert them to string 
-                int byteRecv = sender.Receive(messageReceived);
+                BinaryReader byteRecv = new BinaryReader(stream);
                 Console.WriteLine("Message from Server -> {0}",
-                      Encoding.ASCII.GetString(messageReceived,
-                                                 0, byteRecv));
+                      Encoding.ASCII.GetString(byteRecv.ReadBytes(1024)));
 
                 // Close Socket using  
                 // the method Close() 
@@ -83,4 +92,5 @@ public class Client
 
         }
     }
+   
 }

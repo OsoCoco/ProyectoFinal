@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
-    public string playerName;
-    public int lives;
-    public float health;
+    public string playerName = "Player";
+    public int lives = 5;
+    public float health = 10;
 
     private void Start()
     {
@@ -14,5 +15,9 @@ public class PlayerData : MonoBehaviour
     public string SaveToString()
     {
         return JsonUtility.ToJson(this);
+    }
+    public Stream GetStream()
+    {
+        return null;
     }
 }
